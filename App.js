@@ -1,21 +1,29 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Platform, SafeAreaView } from 'react-native';
+import { Container, Header } from 'native-base';
+import { Provider } from 'react-redux';
+import Login from './src/components/login';
+import store from './src/redux/store';
+
+const styles = StyleSheet.create({
+  droidSafeArea: {
+    flex: 1,
+    paddingTop: Platform.OS === 'android' ? 35 : 0,
+  },
+});
+
 
 export default class App extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-      </View>
+      <Provider store={store}>
+        <SafeAreaView style={styles.droidSafeArea}>
+          <Container>
+            <Header />
+            <Login />
+          </Container>
+        </SafeAreaView>
+      </Provider>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
