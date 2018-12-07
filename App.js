@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Platform, SafeAreaView } from 'react-native';
 import { Container, Header } from 'native-base';
 import { Provider } from 'react-redux';
-import Login from './src/components/login';
+import Register from './src/components/register';
 import store from './src/redux/store';
 
 const styles = StyleSheet.create({
@@ -20,7 +20,7 @@ export default class App extends React.Component {
         <SafeAreaView style={styles.droidSafeArea}>
           <Container>
             <Header />
-            <Login />
+            <Register />
           </Container>
         </SafeAreaView>
       </Provider>

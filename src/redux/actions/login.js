@@ -12,7 +12,7 @@ export const loginSuccess = ({ token }) => {
   };
 };
 
-export const LoginFail = error => ({
+export const loginFail = error => ({
   type: ActionTypes.POST_LOGIN_FAIL,
   payload: {
     error,
@@ -25,5 +25,5 @@ export const login = (username, password) => dispatch => axios
     dispatch(loginSuccess(response.data));
   })
   .catch((error) => {
-    throw error;
+    dispatch(loginFail(error));
   });
