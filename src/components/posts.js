@@ -3,9 +3,8 @@ import { Text } from 'react-native';
 import { Content, Form, Item, Input, Label, Button } from 'native-base';
 import { connect } from 'react-redux';
 import { login } from '../redux/actions/login';
-import { nextPage } from '../redux/actions/nav';
 
-class Login extends Component {
+class Posts extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,7 +23,6 @@ class Login extends Component {
 
   submit = () => {
     this.props.loginFunc(this.state.username, this.state.password);
-    this.props.registerPage(this.props.nav.view, 'register');
   };
 
   render() {
@@ -32,7 +30,7 @@ class Login extends Component {
       <Content>
         <Form>
           <Item inlineLabel>
-            <Label>Username {this.props.nav[this.props.nav.length - 1]}</Label>
+            <Label>POST</Label>
             <Input onChangeText={this.handleUserNameChange} value={this.state.username} />
           </Item>
           <Item inlineLabel last>
@@ -54,19 +52,15 @@ class Login extends Component {
 
 const mapState = state => ({
   login: state.login,
-  nav: state.nav,
 });
 
 const mapDispatch = dispatch => ({
   loginFunc: (user, pass) => {
     dispatch(login(user, pass));
   },
-  registerPage: (oldView, newView) => {
-    dispatch(nextPage(oldView, newView));
-  },
 });
 
 export default connect(
   mapState,
   mapDispatch,
-)(Login);
+)(Posts);

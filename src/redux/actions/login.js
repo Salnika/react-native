@@ -3,14 +3,12 @@ import * as ActionTypes from '../actionsTypes/login';
 
 const apiUrl = 'http://api.food-o.eu/auth/sign_in';
 
-export const loginSuccess = ({ token }) => {
-  return {
-    type: ActionTypes.POST_LOGIN_SUCCESS,
-    payload: {
-      token,
-    },
-  };
-};
+export const loginSuccess = ({ token }) => ({
+  type: ActionTypes.POST_LOGIN_SUCCESS,
+  payload: {
+    token,
+  },
+});
 
 export const LoginFail = error => ({
   type: ActionTypes.POST_LOGIN_FAIL,
