@@ -24,7 +24,8 @@ class Login extends Component {
 
   submit = () => {
     this.props.loginFunc(this.state.username, this.state.password);
-    this.props.registerPage(this.props.nav.view, 'register');
+    this.props.registerPage(this.props.nav.view, 'post');
+    console.log();
   };
 
   render() {
