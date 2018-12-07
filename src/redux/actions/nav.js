@@ -7,16 +7,19 @@ export const nextPage = (oldView, view) => {
     type: ActionTypes.NEW_VIEW,
     payload: {
       newView,
+      view,
     },
   };
 };
 
 export const previousPage = (oldView) => {
-  const newView = oldView.pop();
+  const newView = oldView.slice(0, -1);
+  const view = newView[newView.length - 1];
   return {
     type: ActionTypes.PREVIOUS_VIEW,
     payload: {
       newView,
+      view,
     },
   };
 };
