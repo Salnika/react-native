@@ -6,19 +6,15 @@ export default function validate(fieldName, value) {
       presence: true,
       format: {
         pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-        message: 'Invalid email id',
+        message: 'Invalid email',
       },
     },
     password: {
       presence: true,
       length: {
-        minimum: 4,
+        minimum: 5,
         message: 'Invalid Password',
       },
-    },
-    confirmPassword: {
-      presence: true,
-      equality: 'password',
     },
     phoneNo: {
       presence: true,
