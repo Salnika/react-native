@@ -1,18 +1,23 @@
 import Login from './components/login';
-import Post from './components/posts';
-import Register from './components/register'
+import Register from './components/register';
+import Home from './components/home';
+import Barcode from './components/barcode';
 
-export default ([
-  {
-    name: 'register',
-    component: Register,
-  },
+export default [
   {
     name: 'login',
     component: Login,
   },
   {
-    name: 'post',
-    component: Post,
+    name: 'home',
+    component: Home,
   },
-]);
+  {
+    name: 'register',
+    component: Register,
+  },
+  {
+    name: 'barcode',
+    component: Barcode,
+  },
+];

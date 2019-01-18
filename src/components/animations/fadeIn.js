@@ -9,7 +9,6 @@ class FadeInView extends React.Component {
   }
 
   componentDidMount() {
-    console.log('here');
     this.animate();
   }
 
@@ -22,7 +21,6 @@ class FadeInView extends React.Component {
         useNativeDriver: true,
       },
     ).start(() => {
-      console.log('done');
     }); // Starts the animation
   };
 

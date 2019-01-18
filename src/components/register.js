@@ -40,8 +40,6 @@ class Register extends Component {
       passwordRepeatError: passwordRepeatError,
     });
 
-    console.log(emailError);
-
     if (this.state.password === this.state.repeatPassword)
       this.props.registerFunc(this.state.username, this.state.password);
     else this.state.passwordRepeatError = 'Passwords are not the same';
