@@ -3,7 +3,7 @@ import { Text } from 'react-native';
 import { Content, Form, Item, Input, Label, Button } from 'native-base';
 import { connect } from 'react-redux';
 import { register } from '../redux/actions/register';
-import validation from './validation/validate'
+import validation from './validation/validate';
 
 class Register extends Component {
   constructor(props) {
@@ -14,7 +14,7 @@ class Register extends Component {
       repeatPassword: '',
       emailError: 'Email',
       passwordError: 'Password',
-      passwordRepeatError: 'Password Error'
+      passwordRepeatError: 'Password Error',
     };
   }
 
@@ -30,23 +30,21 @@ class Register extends Component {
     this.setState({ repeatPassword: value });
   };
 
-
   submit = () => {
     const emailError = validation('email', this.state.username);
-    const passwordError = validation({'confirmPassword', 'password'}, this.state.password);
-
+    const passwordError = validation('password', this.state.password);
+    const passwordRepeatError = validation('confirmPassword', this.state.repeatPassword);
     this.setState({
       emailError: emailError,
       passwordError: passwordError,
-      passwordRepeatError: passwordRepeatError
+      passwordRepeatError: passwordRepeatError,
     });
 
     console.log(emailError);
 
     if (this.state.password === this.state.repeatPassword)
       this.props.registerFunc(this.state.username, this.state.password);
-    else
-      this.state.passwordRepeatError = "Passwords are not the same"
+    else this.state.passwordRepeatError = 'Passwords are not the same';
   };
 
   render() {
@@ -55,7 +53,7 @@ class Register extends Component {
         <Form>
           <Item stackedLabel>
             <Label>{this.state.emailError}</Label>
-            <Input onChangeText={this.handleUserNameChange} value={this.state.username}/>
+            <Input onChangeText={this.handleUserNameChange} value={this.state.username} />
           </Item>
           <Item stackedLabel>
             <Label>{this.state.passwordError}</Label>
