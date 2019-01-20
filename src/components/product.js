@@ -55,12 +55,12 @@ class Product extends Component {
   }
 }
 
-const mapState = state => ({
-  barcode: state.barcode,
-});
-
 Product.propTypes = {
   barcode: PropTypes.string.isRequired,
 };
+
+const mapState = state => ({
+  barcode: state.barcode,
+});
 
 export default connect(mapState)(Product);

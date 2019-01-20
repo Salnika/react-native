@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Alert } from 'react-native';
+import PropTypes from 'prop-types';
+import {
+  Text, View, StyleSheet, Alert,
+} from 'react-native';
 import { Spinner } from 'native-base';
 import { Constants, BarCodeScanner, Permissions } from 'expo';
 import { connect } from 'react-redux';
@@ -25,24 +28,26 @@ class BarCode extends Component {
   }
 
   componentDidMount() {
-    this._requestCameraPermission();
+    this.requestCameraPermission();
   }
 
-  _requestCameraPermission = async () => {
+  componentWillReceiveProps(nextProps) {
+    const { registerPage, nav } = this.props;
+    if (nextProps.barcode.error) Alert.alert('Product not found', 'Product not found');
+    else if (nextProps.barcode.productData) registerPage(nav.view, 'product');
+  }
+
+  requestCameraPermission = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({
       hasCameraPermission: status === 'granted',
     });
   };
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.barcode.erro) Alert.alert('Product not found', 'Product not found');
-    else if (nextProps.barcode.productData) this.props.registerPage(this.props.nav.view, 'product');
-  }
-
-  _handleBarCodeRead = async data => {
+  handleBarCodeRead = async (data) => {
     // Alert.alert('Scan successful!', JSON.stringify(data));
-    await this.props.getProductInfos(data.data);
+    const { getProductInfos } = this.props;
+    await getProductInfos(data.data);
   };
 
   render() {
@@ -55,12 +60,18 @@ class BarCode extends Component {
         ) : this.state.hasCameraPermission === false ? (
           <Text>Camera permission is not granted</Text>
         ) : (
-          <BarCodeScanner onBarCodeRead={this._handleBarCodeRead} style={StyleSheet.absoluteFill} />
+          <BarCodeScanner onBarCodeRead={this.handleBarCodeRead} style={StyleSheet.absoluteFill} />
         )}
       </View>
     );
   }
 }
+
+BarCode.propTypes = {
+  registerPage: PropTypes.func.isRequired,
+  nav: PropTypes.string.isRequired,
+  barcode: PropTypes.string.isRequired,
+};
 
 const mapState = state => ({
   nav: state.nav,
@@ -71,7 +82,7 @@ const mapDispatch = dispatch => ({
   registerPage: (oldView, newView) => {
     dispatch(nextPage(oldView, newView));
   },
-  getProductInfos: barcode => {
+  getProductInfos: (barcode) => {
     dispatch(getProduct(barcode));
   },
 });

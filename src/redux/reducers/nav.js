@@ -5,8 +5,8 @@ import Routes from '../../routes';
 import Home from '../../components/home';
 
 const initialState = {
-  view: ['home'],
-  component: Home,
+  view: ['login'],
+  component: Login,
 };
 
 export default function reducer(state = initialState, action) {
