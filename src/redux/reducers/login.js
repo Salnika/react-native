@@ -13,7 +13,7 @@ export default function reducer(state = initialState, action) {
     case actionType.POST_LOGIN_SUCCESS:
       return { ...state, loading: false, token: action.payload.token };
     case actionType.POST_LOGIN_FAIL:
-      return { ...state, loading: false, token: action.payload.error };
+      return { ...state, loading: false, error: action.payload.error };
     default:
       return state;
   }

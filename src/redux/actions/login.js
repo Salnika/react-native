@@ -17,11 +17,19 @@ export const loginFail = error => ({
   },
 });
 
-export const login = (username, password) => dispatch => axios
-  .post(`${apiUrl}`, { email: username, password })
-  .then((response) => {
-    dispatch(loginSuccess(response.data));
-  })
-  .catch((error) => {
-    dispatch(loginFail(error));
-  });
+export const startLogin = () => ({
+  type: ActionTypes.POST_LOGIN,
+  payload: {},
+});
+
+export const login = (username, password) => (dispatch) => {
+  dispatch(startLogin());
+  axios
+    .post(`${apiUrl}`, { email: username, password })
+    .then((response) => {
+      dispatch(loginSuccess(response.data));
+    })
+    .catch((error) => {
+      dispatch(loginFail(error));
+    });
+};
