@@ -101,8 +101,8 @@ class Home extends Component {
   }
 
   createRows = () => {
-    return items.map(item => {
-      return <ItemList uri={item.uri} name={item.name} />;
+    return items.map((item, index) => {
+      return <ItemList key={index} uri={item.uri} name={item.name} />;
     });
   };
 

@@ -2,6 +2,7 @@ import Login from './components/login';
 import Register from './components/register';
 import Home from './components/home';
 import Barcode from './components/barcode';
+import Product from './components/product';
 
 export default [
   {
@@ -19,5 +20,9 @@ export default [
   {
     name: 'barcode',
     component: Barcode,
+  },
+  {
+    name: 'product',
+    component: Product,
   },
 ];
