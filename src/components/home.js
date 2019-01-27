@@ -60,7 +60,7 @@ class Home extends Component {
 
   createRows = () => {
     const { items } = this.state;
-    return items.map((item, index) => <ItemList id={item.id} key={item.name} uri={item.uri} name={item.name} method={this.itemDeleted} />);
+    return items.map((item, index) => <ItemList id={item.id} key={item.name} uri={item.uri} name={item.name} deleteMe={this.itemDeleted} />);
   };
 
   openScanner = () => {
