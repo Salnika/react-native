@@ -64,7 +64,7 @@ class Product extends Component {
 }
 
 Product.propTypes = {
-  barcode: PropTypes.string.isRequired,
+  barcode: PropTypes.object,
 };
 
 const mapState = state => ({

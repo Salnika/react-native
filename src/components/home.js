@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import {
   List, Container, Content, Footer, Button, Icon,
@@ -38,6 +39,17 @@ class Home extends Component {
     }
   };
 
+  itemDeleted = async (id) => {
+    let items = await AsyncStorage.getItem('itemList');
+
+    if (items !== null) {
+      items = JSON.stringify(_.reject(JSON.parse(items), { id: id }));
+
+      await AsyncStorage.setItem('itemList', items);
+      this.setState({ items: JSON.parse(items).reverse() });
+    }
+  };
+
   componentDidMount = () => {
     this.loadItems();
   };
@@ -48,7 +60,7 @@ class Home extends Component {
 
   createRows = () => {
     const { items } = this.state;
-    return items.map((item, index) => <ItemList key={index} uri={item.uri} name={item.name} />);
+    return items.map((item, index) => <ItemList id={item.id} key={item.name} uri={item.uri} name={item.name} method={this.itemDeleted} />);
   };
 
   openScanner = () => {
