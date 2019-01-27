@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { AsyncStorage } from 'react-native';
 import * as ActionTypes from '../actionsTypes/barcode';
 
 const openFoodFactUrl = 'https://fr.openfoodfacts.org/api/v0/produit/';
@@ -10,7 +11,7 @@ export const getProductSuccess = productData => ({
   },
 });
 
-export const getProductFail = error => ({
+export const getProductFail = async error => ({
   type: ActionTypes.GET_PRODUCT_INFO_FAIL,
   payload: {
     error,
@@ -26,7 +27,14 @@ export const getProduct = barcode => (dispatch) => {
   dispatch(startGetProduct());
   axios
     .get(`${openFoodFactUrl}${barcode}.json`)
-    .then((response) => {
+    .then(async (response) => {
+      const previousProducts = await AsyncStorage.getItem('itemList');
+      const items = previousProducts !== null ? JSON.parse(previousProducts) : [];
+      items.push({
+        name: response.data.product.product_name_fr,
+        uri: response.data.product.image_url,
+      });
+      await AsyncStorage.setItem('itemList', JSON.stringify(items));
       dispatch(getProductSuccess(response.data));
     })
     .catch((error) => {

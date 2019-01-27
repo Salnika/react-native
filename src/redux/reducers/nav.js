@@ -2,7 +2,6 @@ import _ from 'lodash';
 import * as actionType from '../actionsTypes/nav';
 import Login from '../../components/login';
 import Routes from '../../routes';
-import Home from '../../components/home';
 
 const initialState = {
   view: ['login'],

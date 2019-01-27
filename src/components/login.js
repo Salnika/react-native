@@ -1,11 +1,24 @@
 import React, { Component } from 'react';
-import { Text, Alert } from 'react-native';
+import {
+  Text, Alert, StyleSheet, AsyncStorage,
+} from 'react-native';
 import {
   Content, Form, Item, Input, Label, Button, Spinner,
 } from 'native-base';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { login } from '../redux/actions/login';
 import { nextPage } from '../redux/actions/nav';
+
+const styles = StyleSheet.create({
+  full: {
+    width: '100%',
+    alignItems: 'center',
+  },
+  margin: {
+    marginBottom: 15,
+  },
+});
 
 class Login extends Component {
   constructor(props) {
@@ -16,12 +29,24 @@ class Login extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.login.token) this.props.registerPage(this.props.nav.view, 'home');
-    else if (nextProps.login.error) {
+  componentDidMount = async () => {
+    const { registerPage, nav } = this.props;
+    const isLogged = await AsyncStorage.getItem('isLogged');
+    if (isLogged !== null && isLogged === 'true') {
+      registerPage(nav.view, 'home');
+    }
+  };
+
+  componentWillReceiveProps = async (nextProps) => {
+    const { registerPage, nav } = this.props;
+    if (nextProps.login.token) {
+      await AsyncStorage.setItem('isLogged', 'true');
+      registerPage(nav.view, 'home');
+    } else if (nextProps.login.error) {
+      Alert.alert('error', nextProps.login.error);
       Alert.alert('Login Error', 'Wrong username or password');
     }
-  }
+  };
 
   handleUserNameChange = (value) => {
     this.setState({ username: value });
@@ -32,11 +57,14 @@ class Login extends Component {
   };
 
   submit = async () => {
-    await this.props.loginFunc(this.state.username.toLowerCase(), this.state.password);
+    const { loginFunc } = this.props;
+    const { username, password } = this.state;
+    await loginFunc(username.toLowerCase(), password);
   };
 
   goToRegister = () => {
-    this.props.registerPage(this.props.nav.view, 'register');
+    const { registerPage, nav } = this.props;
+    registerPage(nav.view, 'register');
   };
 
   render() {
@@ -59,11 +87,11 @@ class Login extends Component {
               <Label>Password</Label>
               <Input secureTextEntry onChangeText={this.handlePasswordChange} value={password} />
             </Item>
-            <Button onPress={this.submit}>
-              <Text>Login</Text>
+            <Button style={styles.margin} onPress={this.submit}>
+              <Text style={styles.full}>Login</Text>
             </Button>
             <Button onPress={this.goToRegister}>
-              <Text>Create an account</Text>
+              <Text style={styles.full}>Create an account</Text>
             </Button>
           </Form>
         )}

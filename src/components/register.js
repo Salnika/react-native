@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Text } from 'react-native';
-import { Content, Form, Item, Input, Label, Button } from 'native-base';
+import {
+  Content, Form, Item, Input, Label, Button,
+} from 'native-base';
 import { connect } from 'react-redux';
 import { register } from '../redux/actions/register';
 import validation from './validation/validate';
@@ -18,15 +20,15 @@ class Register extends Component {
     };
   }
 
-  handleUserNameChange = value => {
+  handleUserNameChange = (value) => {
     this.setState({ username: value });
   };
 
-  handlePasswordChange = value => {
+  handlePasswordChange = (value) => {
     this.setState({ password: value });
   };
 
-  handleRepeatPasswordChange = value => {
+  handleRepeatPasswordChange = (value) => {
     this.setState({ repeatPassword: value });
   };
 
@@ -35,13 +37,12 @@ class Register extends Component {
     const passwordError = validation('password', this.state.password);
     const passwordRepeatError = validation('confirmPassword', this.state.repeatPassword);
     this.setState({
-      emailError: emailError,
-      passwordError: passwordError,
-      passwordRepeatError: passwordRepeatError,
+      emailError,
+      passwordError,
+      passwordRepeatError,
     });
 
-    if (this.state.password === this.state.repeatPassword)
-      this.props.registerFunc(this.state.username, this.state.password);
+    if (this.state.password === this.state.repeatPassword) this.props.registerFunc(this.state.username, this.state.password);
     else this.state.passwordRepeatError = 'Passwords are not the same';
   };
 

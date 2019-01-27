@@ -35,7 +35,7 @@ class Product extends Component {
             </Col>
             <Col>
               <Row>
-                <Text>{product.ingredients_text_with_allergens_fr}</Text>
+                <Text>{product.product_name_fr}</Text>
               </Row>
               <Row>
                 <Text>Brand:</Text>

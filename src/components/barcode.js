@@ -34,7 +34,9 @@ class BarCode extends Component {
   componentWillReceiveProps(nextProps) {
     const { registerPage, nav } = this.props;
     if (nextProps.barcode.error) Alert.alert('Product not found', 'Product not found');
-    else if (nextProps.barcode.productData) registerPage(nav.view, 'product');
+    else if (nextProps.barcode.productData) {
+      registerPage(nav.view, 'product');
+    }
   }
 
   requestCameraPermission = async () => {
@@ -51,13 +53,15 @@ class BarCode extends Component {
   };
 
   render() {
+    const { loading } = this.props;
+    const { hasCameraPermission } = this.state;
     return (
       <View style={styles.container}>
-        {this.props.barcode.loading ? (
+        {loading ? (
           <Spinner />
-        ) : this.state.hasCameraPermission === null ? (
+        ) : hasCameraPermission === null ? (
           <Text>Requesting for camera permission</Text>
-        ) : this.state.hasCameraPermission === false ? (
+        ) : hasCameraPermission === false ? (
           <Text>Camera permission is not granted</Text>
         ) : (
           <BarCodeScanner onBarCodeRead={this.handleBarCodeRead} style={StyleSheet.absoluteFill} />
@@ -69,8 +73,13 @@ class BarCode extends Component {
 
 BarCode.propTypes = {
   registerPage: PropTypes.func.isRequired,
-  nav: PropTypes.string.isRequired,
-  barcode: PropTypes.string.isRequired,
+  nav: PropTypes.object.isRequired,
+  barcode: PropTypes.object.isRequired,
+  loading: PropTypes.bool,
+};
+
+BarCode.defaultProps = {
+  loading: false,
 };
 
 const mapState = state => ({

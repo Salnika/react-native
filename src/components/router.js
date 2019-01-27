@@ -1,14 +1,18 @@
 import React from 'react';
-import { Container, Header, Left, Icon, Button, View, Text } from 'native-base';
+import {
+  Container, Header, Left, Icon, Button,
+} from 'native-base';
 import { connect } from 'react-redux';
 import { previousPage } from '../redux/actions/nav';
 import FadeInView from './animations/fadeIn';
 
-class Router extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+// const styles = StyleSheet.create({
+//   returnArrow: {
+//     marginLeft: 0,
+//   },
+// });
 
+class Router extends React.Component {
   prevPage = () => {
     this.props.prevPage(this.props.nav.view);
   };
@@ -28,9 +32,8 @@ class Router extends React.Component {
 
     return (
       <Container>
-          <Header>{button}</Header>
-          <Comp />
-       
+        <Header>{button}</Header>
+        <Comp />
       </Container>
     );
   }
@@ -41,7 +44,7 @@ const mapState = state => ({
 });
 
 const mapDispatch = dispatch => ({
-  prevPage: oldView => {
+  prevPage: (oldView) => {
     dispatch(previousPage(oldView));
   },
 });

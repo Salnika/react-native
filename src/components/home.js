@@ -1,84 +1,12 @@
 import React, { Component } from 'react';
-import ItemList from './itemList';
-import { List, Container, Content, Footer, Button, Icon } from 'native-base';
-import { StyleSheet } from 'react-native';
+import {
+  List, Container, Content, Footer, Button, Icon,
+} from 'native-base';
+import { StyleSheet, AsyncStorage } from 'react-native';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import ItemList from './itemList';
 import { nextPage } from '../redux/actions/nav';
-
-const items = [
-  {
-    uri: 'https://static.openfoodfacts.org/images/products/356/470/086/5439/front_fr.4.full.jpg',
-    name: 'douceur verger',
-  },
-  {
-    uri: 'https://static.openfoodfacts.org/images/products/356/470/086/5439/front_fr.4.full.jpg',
-    name: 'douceur verger',
-  },
-  {
-    uri: 'https://static.openfoodfacts.org/images/products/356/470/086/5439/front_fr.4.full.jpg',
-    name: 'douceur verger',
-  },
-  {
-    uri: 'https://static.openfoodfacts.org/images/products/356/470/086/5439/front_fr.4.full.jpg',
-    name: 'douceur verger',
-  },
-  {
-    uri: 'https://static.openfoodfacts.org/images/products/356/470/086/5439/front_fr.4.full.jpg',
-    name: 'douceur verger',
-  },
-  {
-    uri: 'https://static.openfoodfacts.org/images/products/356/470/086/5439/front_fr.4.full.jpg',
-    name: 'douceur verger',
-  },
-  {
-    uri: 'https://static.openfoodfacts.org/images/products/356/470/086/5439/front_fr.4.full.jpg',
-    name: 'douceur verger',
-  },
-  {
-    uri: 'https://static.openfoodfacts.org/images/products/356/470/086/5439/front_fr.4.full.jpg',
-    name: 'douceur vergerrrr',
-  },
-  {
-    uri: 'https://static.openfoodfacts.org/images/products/356/470/086/5439/front_fr.4.full.jpg',
-    name: 'douceur verger',
-  },
-  {
-    uri: 'https://static.openfoodfacts.org/images/products/356/470/086/5439/front_fr.4.full.jpg',
-    name: 'douceur vergerrrr',
-  },
-  {
-    uri: 'https://static.openfoodfacts.org/images/products/356/470/086/5439/front_fr.4.full.jpg',
-    name: 'douceur verger',
-  },
-  {
-    uri: 'https://static.openfoodfacts.org/images/products/356/470/086/5439/front_fr.4.full.jpg',
-    name: 'douceur vergerrrr',
-  },
-  {
-    uri: 'https://static.openfoodfacts.org/images/products/356/470/086/5439/front_fr.4.full.jpg',
-    name: 'douceur verger',
-  },
-  {
-    uri: 'https://static.openfoodfacts.org/images/products/356/470/086/5439/front_fr.4.full.jpg',
-    name: 'douceur vergerrrr',
-  },
-  {
-    uri: 'https://static.openfoodfacts.org/images/products/356/470/086/5439/front_fr.4.full.jpg',
-    name: 'douceur verger',
-  },
-  {
-    uri: 'https://static.openfoodfacts.org/images/products/356/470/086/5439/front_fr.4.full.jpg',
-    name: 'douceur vergerrrr',
-  },
-  {
-    uri: 'https://static.openfoodfacts.org/images/products/356/470/086/5439/front_fr.4.full.jpg',
-    name: 'douceur verger',
-  },
-  {
-    uri: 'https://static.openfoodfacts.org/images/products/356/470/086/5439/front_fr.4.full.jpg',
-    name: 'douceur vergerrrr',
-  },
-];
 
 const styles = StyleSheet.create({
   full: {
@@ -97,17 +25,35 @@ const styles = StyleSheet.create({
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      items: [],
+    };
+    this.loadItems();
   }
 
+  loadItems = async () => {
+    const items = await AsyncStorage.getItem('itemList');
+    if (items !== null) {
+      this.setState({ items: JSON.parse(items).reverse() });
+    }
+  };
+
+  componentDidMount = () => {
+    this.loadItems();
+  };
+
+  componentWillReceiveProps = () => {
+    this.loadItems();
+  };
+
   createRows = () => {
-    return items.map((item, index) => {
-      return <ItemList key={index} uri={item.uri} name={item.name} />;
-    });
+    const { items } = this.state;
+    return items.map((item, index) => <ItemList key={item.name} uri={item.uri} name={item.name} />);
   };
 
   openScanner = () => {
-    this.props.registerPage(this.props.nav.view, 'barcode');
+    const { registerPage, nav } = this.props;
+    registerPage(nav.view, 'barcode');
   };
 
   render() {
@@ -127,8 +73,14 @@ class Home extends Component {
   }
 }
 
+Home.propTypes = {
+  registerPage: PropTypes.func.isRequired,
+  nav: PropTypes.object.isRequired,
+};
+
 const mapState = state => ({
   nav: state.nav,
+  barcode: state.barcode,
 });
 
 const mapDispatch = dispatch => ({
