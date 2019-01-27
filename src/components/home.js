@@ -43,7 +43,7 @@ class Home extends Component {
     let items = await AsyncStorage.getItem('itemList');
 
     if (items !== null) {
-      items = JSON.stringify(_.reject(JSON.parse(items), { id: id }));
+      items = JSON.stringify(_.reject(JSON.parse(items), { id }));
 
       await AsyncStorage.setItem('itemList', items);
       this.setState({ items: JSON.parse(items).reverse() });
@@ -60,7 +60,15 @@ class Home extends Component {
 
   createRows = () => {
     const { items } = this.state;
-    return items.map((item, index) => <ItemList id={item.id} key={item.name} uri={item.uri} name={item.name} deleteMe={this.itemDeleted} />);
+    return items.map((item, index) => (
+      <ItemList
+        id={item.id}
+        key={item.name}
+        uri={item.uri}
+        name={item.name}
+        deleteMe={this.itemDeleted}
+      />
+    ));
   };
 
   openScanner = () => {

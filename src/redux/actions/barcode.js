@@ -30,10 +30,11 @@ export const getProduct = barcode => (dispatch) => {
     .then(async (response) => {
       const previousProducts = await AsyncStorage.getItem('itemList');
       const items = previousProducts !== null ? JSON.parse(previousProducts) : [];
+      const timestamp = new Date().getUTCMilliseconds();
       items.push({
         name: response.data.product.product_name_fr,
         uri: response.data.product.image_url,
-        id: items.length,
+        id: timestamp,
       });
       await AsyncStorage.setItem('itemList', JSON.stringify(items));
       dispatch(getProductSuccess(response.data));
