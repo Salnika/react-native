@@ -33,6 +33,7 @@ export const getProduct = barcode => (dispatch) => {
       items.push({
         name: response.data.product.product_name_fr,
         uri: response.data.product.image_url,
+        id: items.length,
       });
       await AsyncStorage.setItem('itemList', JSON.stringify(items));
       dispatch(getProductSuccess(response.data));
