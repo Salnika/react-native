@@ -52,22 +52,24 @@ class BarCode extends Component {
     await getProductInfos(data.data);
   };
 
+  getItemToDisplay = (loading, hasCameraPermission) => {
+    if (loading) {
+      return <Spinner />;
+    } if (hasCameraPermission === null) {
+      return <Text>Requesting for camera permission</Text>;
+    } if (hasCameraPermission === false) {
+      return <Text>Camera permission is not granted</Text>;
+    }
+    return (
+      <BarCodeScanner onBarCodeRead={this.handleBarCodeRead} style={StyleSheet.absoluteFill} />
+    );
+  };
+
   render() {
     const { loading } = this.props;
     const { hasCameraPermission } = this.state;
-    return (
-      <View style={styles.container}>
-        {loading ? (
-          <Spinner />
-        ) : hasCameraPermission === null ? (
-          <Text>Requesting for camera permission</Text>
-        ) : hasCameraPermission === false ? (
-          <Text>Camera permission is not granted</Text>
-        ) : (
-          <BarCodeScanner onBarCodeRead={this.handleBarCodeRead} style={StyleSheet.absoluteFill} />
-        )}
-      </View>
-    );
+    const itemToDisplay = this.getItemToDisplay(loading, hasCameraPermission);
+    return <View style={styles.container}>{itemToDisplay}</View>;
   }
 }
 

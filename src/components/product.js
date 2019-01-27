@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {
   List, ListItem, Container, Text, Thumbnail, Spinner,
 } from 'native-base';
+import { Image } from 'react-native';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { connect } from 'react-redux';
 
@@ -26,11 +27,12 @@ class Product extends Component {
 
   render() {
     const { product } = this.state;
+
     return (
       <Container>
         {product ? (
           <Grid>
-            <Col>
+            <Col style={{ width: 100 }}>
               <Thumbnail large square source={{ uri: product.image_url }} />
             </Col>
             <Col>
@@ -44,6 +46,12 @@ class Product extends Component {
               <Row>
                 <Text>Quantity:</Text>
                 <Text>{product.quantity}</Text>
+              </Row>
+              <Row>
+                <Text>
+                  Nutriscore:
+                  {product.nutrition_grades}
+                </Text>
               </Row>
             </Col>
           </Grid>
