@@ -60,10 +60,10 @@ class Home extends Component {
 
   createRows = () => {
     const { items } = this.state;
-    return items.map((item, index) => (
+    return items.map(item => (
       <ItemList
         id={item.id}
-        key={item.name}
+        key={item.id}
         uri={item.uri}
         name={item.name}
         deleteMe={this.itemDeleted}

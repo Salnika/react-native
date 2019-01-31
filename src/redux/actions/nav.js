@@ -2,7 +2,7 @@ import * as ActionTypes from '../actionsTypes/nav';
 
 export const nextPage = (oldView, view) => {
   const newView = oldView;
-  newView.push(view);
+  if (view !== 'menu') newView.push(view);
   return {
     type: ActionTypes.NEW_VIEW,
     payload: {

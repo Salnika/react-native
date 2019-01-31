@@ -3,6 +3,7 @@ import Register from './components/register';
 import Home from './components/home';
 import Barcode from './components/barcode';
 import Product from './components/product';
+import Menu from './components/menu';
 
 export default [
   {
@@ -24,5 +25,9 @@ export default [
   {
     name: 'product',
     component: Product,
+  },
+  {
+    name: 'menu',
+    component: Menu,
   },
 ];
