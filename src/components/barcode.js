@@ -75,7 +75,10 @@ class BarCode extends Component {
 
 BarCode.propTypes = {
   registerPage: PropTypes.func.isRequired,
-  nav: PropTypes.object.isRequired,
+  nav: PropTypes.shape({
+    view: PropTypes.array,
+    Component: PropTypes.element,
+  }).isRequired,
   barcode: PropTypes.object.isRequired,
   loading: PropTypes.bool,
 };

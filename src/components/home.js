@@ -95,7 +95,10 @@ class Home extends Component {
 
 Home.propTypes = {
   registerPage: PropTypes.func.isRequired,
-  nav: PropTypes.object.isRequired,
+  nav: PropTypes.shape({
+    view: PropTypes.array,
+    Component: PropTypes.element,
+  }).isRequired,
 };
 
 const mapState = state => ({
