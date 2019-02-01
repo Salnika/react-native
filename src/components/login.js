@@ -32,18 +32,19 @@ class Login extends Component {
   componentDidMount = async () => {
     const { registerPage, nav } = this.props;
     const isLogged = await AsyncStorage.getItem('isLogged');
-    if (isLogged !== null && isLogged === 'true') {
+    if (isLogged !== null && isLogged) {
       registerPage(nav.view, 'home');
     }
   };
 
   componentWillReceiveProps = async (nextProps) => {
     const { registerPage, nav } = this.props;
-    if (nextProps.login.token) {
-      await AsyncStorage.setItem('isLogged', 'true');
+    const { login } = nextProps;
+    if (login.token) {
+      await AsyncStorage.setItem('isLogged', login.token);
       registerPage(nav.view, 'home');
-    } else if (nextProps.login.error) {
-      Alert.alert('error', nextProps.login.error);
+    } else if (login.error) {
+      Alert.alert('error', login.error);
       Alert.alert('Login Error', 'Wrong username or password');
     }
   };
@@ -78,7 +79,7 @@ class Login extends Component {
           <Form>
             <Item inlineLabel>
               <Label>
-                Username
+                Email
                 {nav[nav.length - 1]}
               </Label>
               <Input onChangeText={this.handleUserNameChange} value={username} />
