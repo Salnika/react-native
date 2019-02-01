@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  List, ListItem, Container, Text, Thumbnail, Spinner,
+  Container, Text, Thumbnail, Spinner,
 } from 'native-base';
-import { Image } from 'react-native';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { connect } from 'react-redux';
 
@@ -65,6 +64,10 @@ class Product extends Component {
 
 Product.propTypes = {
   barcode: PropTypes.object,
+  nav: PropTypes.shape({
+    view: PropTypes.array,
+    Component: PropTypes.element,
+  }).isRequired,
 };
 
 const mapState = state => ({
