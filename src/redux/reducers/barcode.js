@@ -2,7 +2,13 @@ import * as actionType from '../actionsTypes/barcode';
 
 const initialState = {
   error: '',
-  productData: '',
+  productData: {
+    image_url: '',
+    product_name_fr: '',
+    quantity: '',
+    nutrition_grades: '',
+    brands: '',
+  },
   loading: false,
 };
 

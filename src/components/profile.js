@@ -10,13 +10,12 @@ import { connect } from 'react-redux';
 import { ImagePicker } from 'expo';
 import { getInfo, uploadProfilePicture } from '../redux/actions/profile';
 
-
 class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
       userMail: '',
-      picture: '',
+      picture: 'http://www.super-blagues.fr/assets/images/profil/profil_defaut.png',
       loading: false,
     };
   }
@@ -64,11 +63,7 @@ class Profile extends Component {
             <List>
               <ListItem>
                 <TouchableHighlight onPress={() => this.askProfilePicture()}>
-                  <Thumbnail
-                    large
-                    square
-                    source={{ uri: picture }}
-                  />
+                  <Thumbnail large square source={{ uri: picture }} />
                 </TouchableHighlight>
               </ListItem>
               <ListItem>
