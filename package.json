@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "expo": "^31.0.2",
+    "form-data": "^2.3.3",
     "lodash": "^4.17.11",
     "native-base": "^2.8.1",
     "prop-types": "^15.6.2",
