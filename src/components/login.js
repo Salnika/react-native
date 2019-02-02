@@ -5,9 +5,9 @@ import {
 import {
   Content, Form, Item, Input, Label, Button, Spinner,
 } from 'native-base';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { login } from '../redux/actions/login';
+import PropTypes from 'prop-types';
+import { login as loginAction } from '../redux/actions/login';
 import { nextPage } from '../redux/actions/nav';
 
 const styles = StyleSheet.create({
@@ -101,6 +101,17 @@ class Login extends Component {
   }
 }
 
+Login.propTypes = {
+  registerPage: PropTypes.func.isRequired,
+  login: PropTypes.shape({
+    token: PropTypes.string.isRequired,
+  }).isRequired,
+  nav: PropTypes.shape({
+    view: PropTypes.array,
+    Component: PropTypes.element,
+  }).isRequired,
+};
+
 const mapState = state => ({
   login: state.login,
   nav: state.nav,
@@ -108,7 +119,7 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => ({
   loginFunc: (user, pass) => {
-    dispatch(login(user, pass));
+    dispatch(loginAction(user, pass));
   },
   registerPage: (oldView, newView) => {
     dispatch(nextPage(oldView, newView));

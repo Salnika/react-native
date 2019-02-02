@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Text, Alert, AsyncStorage, TouchableHighlight } from 'react-native';
 import {
-  Content, Container, Spinner, List, ListItem, Icon, Thumbnail, Button, Form,
+  Text, Alert, AsyncStorage, TouchableHighlight,
+} from 'react-native';
+import {
+  Content, Container, Spinner, List, ListItem, Thumbnail,
 } from 'native-base';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -80,10 +82,12 @@ class Profile extends Component {
   }
 }
 
-// Profile.propTypes = {
-//   userEmail: PropTypes.string.isRequired,
-//   picture: PropTypes.string.isRequired,
-// };
+Profile.propTypes = {
+  profile: PropTypes.shape({
+    userEmail: PropTypes.string,
+    picture: PropTypes.string,
+  }).isRequired,
+};
 
 const mapState = state => ({
   profile: state.profile,

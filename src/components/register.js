@@ -16,7 +16,7 @@ class Register extends Component {
       repeatPassword: '',
       emailError: 'Email',
       passwordError: 'Password',
-      passwordRepeatError: 'Password Error',
+      passwordRepeatError: 'Password Repeat',
     };
   }
 
@@ -33,41 +33,47 @@ class Register extends Component {
   };
 
   submit = () => {
-    const emailError = validation('email', this.state.username);
-    const passwordError = validation('password', this.state.password);
-    const passwordRepeatError = validation('confirmPassword', this.state.repeatPassword);
+    const {
+      username, password, repeatPassword,
+    } = this.state;
+    const emailError = validation('email', username);
+    const passwordError = validation('password', password);
+    const passwordRepeatError = validation('confirmPassword', repeatPassword);
     this.setState({
       emailError,
       passwordError,
       passwordRepeatError,
     });
 
-    if (this.state.password === this.state.repeatPassword) this.props.registerFunc(this.state.username, this.state.password);
+    if (password === repeatPassword) register(username, password);
     else this.state.passwordRepeatError = 'Passwords are not the same';
   };
 
   render() {
+    const {
+      username, emailError, passwordError, password, passwordRepeatError, repeatPassword,
+    } = this.state;
     return (
       <Content>
         <Form>
           <Item stackedLabel>
-            <Label>{this.state.emailError}</Label>
-            <Input onChangeText={this.handleUserNameChange} value={this.state.username} />
+            <Label>{emailError}</Label>
+            <Input onChangeText={this.handleUserNameChange} value={username} />
           </Item>
           <Item stackedLabel>
-            <Label>{this.state.passwordError}</Label>
+            <Label>{passwordError}</Label>
             <Input
               secureTextEntry
               onChangeText={this.handlePasswordChange}
-              value={this.state.password}
+              value={password}
             />
           </Item>
           <Item stackedLabel last>
-            <Label>{this.state.passwordRepeatError}</Label>
+            <Label>{passwordRepeatError}</Label>
             <Input
               secureTextEntry
               onChangeText={this.handleRepeatPasswordChange}
-              value={this.state.repeatPassword}
+              value={repeatPassword}
             />
           </Item>
           <Button full primary large onPress={this.submit}>

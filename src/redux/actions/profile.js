@@ -1,7 +1,7 @@
 import axios from 'axios';
 import FormData from 'form-data';
+
 import * as ActionTypes from '../actionsTypes/profile';
-import { Alert } from 'react-native';
 
 const apiUrl = 'http://api.food-o.eu/user/me';
 const urlUpload = 'http://api.food-o.eu/user/me/profilePicture';
@@ -42,11 +42,15 @@ export const getInfo = token => (dispatch) => {
     });
 };
 
+export const uploadPictureSuccess = data => ({
+  data,
+});
+
+export const uploadPictureFail = error => ({
+  error,
+});
+
 export const uploadProfilePicture = (token, image) => (dispatch) => {
-  const headers = {
-    Authorization: `JWT ${token}`,
-    'Content-Type': 'multipart/form-data',
-  };
   const formData = new FormData();
   const formatedFile = {
     uri: image.uri,
@@ -62,7 +66,9 @@ export const uploadProfilePicture = (token, image) => (dispatch) => {
     body: formData,
   })
     .then((response) => {
+      dispatch(uploadPictureSuccess(response));
     })
     .catch((error) => {
+      dispatch(uploadPictureFail(error));
     });
 };

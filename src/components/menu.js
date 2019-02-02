@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import {
-  Container, List, ListItem, Text, Button, Icon, Content,
+  Container, List, ListItem, Text, Icon, Content,
 } from 'native-base';
 import { connect } from 'react-redux';
-import { StyleSheet, AsyncStorage } from 'react-native';
+import { AsyncStorage } from 'react-native';
+import PropTypes from 'prop-types';
 import { nextPage } from '../redux/actions/nav';
 
 class Menu extends Component {
@@ -56,6 +57,14 @@ class Menu extends Component {
     );
   }
 }
+
+Menu.propTypes = {
+  registerPage: PropTypes.func.isRequired,
+  nav: PropTypes.shape({
+    view: PropTypes.array,
+    Component: PropTypes.element,
+  }).isRequired,
+};
 
 const mapState = state => ({
   nav: state.nav,
