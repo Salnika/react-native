@@ -16,12 +16,12 @@ class Product extends Component {
 
   componentDidMount() {
     const { barcode } = this.props;
-    this.setState({ product: barcode.productData.product });
+    this.setState({ product: barcode.productData });
   }
 
   componentWillReceiveProps(nextProps) {
     const { barcode } = nextProps;
-    this.setState({ product: barcode.productData.product });
+    this.setState({ product: barcode.productData });
   }
 
   render() {
@@ -63,7 +63,17 @@ class Product extends Component {
 }
 
 Product.propTypes = {
-  barcode: PropTypes.object,
+  barcode: PropTypes.shape({
+    error: PropTypes.string.isRequired,
+    productData: PropTypes.shape({
+      image_url: PropTypes.string.isRequired,
+      product_name_fr: PropTypes.string.isRequired,
+      quantity: PropTypes.string.isRequired,
+      nutrition_grades: PropTypes.string.isRequired,
+      brands: PropTypes.string.isRequired,
+    }).isRequired,
+    loading: PropTypes.bool.isRequired,
+  }).isRequired,
   nav: PropTypes.shape({
     view: PropTypes.array,
     Component: PropTypes.element,

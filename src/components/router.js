@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Container, Header, Left, Icon, Button, Right,
 } from 'native-base';
+import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 import { previousPage, nextPage } from '../redux/actions/nav';
@@ -45,6 +46,15 @@ class Router extends React.Component {
     );
   }
 }
+
+Router.propTypes = {
+  prevPage: PropTypes.func.isRequired,
+  registerPage: PropTypes.func.isRequired,
+  nav: PropTypes.shape({
+    view: PropTypes.array,
+    Component: PropTypes.element,
+  }).isRequired,
+};
 
 const mapState = state => ({
   nav: state.nav,

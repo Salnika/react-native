@@ -47,7 +47,6 @@ class BarCode extends Component {
   };
 
   handleBarCodeRead = async (data) => {
-    // Alert.alert('Scan successful!', JSON.stringify(data));
     const { getProductInfos } = this.props;
     await getProductInfos(data.data);
   };
@@ -55,9 +54,11 @@ class BarCode extends Component {
   getItemToDisplay = (loading, hasCameraPermission) => {
     if (loading) {
       return <Spinner />;
-    } if (hasCameraPermission === null) {
+    }
+    if (hasCameraPermission === null) {
       return <Text>Requesting for camera permission</Text>;
-    } if (hasCameraPermission === false) {
+    }
+    if (hasCameraPermission === false) {
       return <Text>Camera permission is not granted</Text>;
     }
     return (
@@ -79,7 +80,17 @@ BarCode.propTypes = {
     view: PropTypes.array,
     Component: PropTypes.element,
   }).isRequired,
-  barcode: PropTypes.object.isRequired,
+  barcode: PropTypes.shape({
+    error: PropTypes.string.isRequired,
+    productData: PropTypes.shape({
+      image_url: PropTypes.string.isRequired,
+      product_name_fr: PropTypes.string.isRequired,
+      quantity: PropTypes.string.isRequired,
+      nutrition_grades: PropTypes.string.isRequired,
+      brands: PropTypes.string.isRequired,
+    }).isRequired,
+    loading: PropTypes.bool.isRequired,
+  }).isRequired,
   loading: PropTypes.bool,
 };
 
