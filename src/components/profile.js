@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { Text, Alert, AsyncStorage } from 'react-native';
+import { Text, Alert, AsyncStorage, TouchableHighlight } from 'react-native';
 import {
-  Content, Container, Spinner, List, ListItem, Icon, Thumbnail,
+  Content, Container, Spinner, List, ListItem, Icon, Thumbnail, Button, Form,
 } from 'native-base';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getInfo } from '../redux/actions/profile';
+import { ImagePicker } from 'expo';
+import { getInfo, uploadProfilePicture } from '../redux/actions/profile';
+
 
 class Profile extends Component {
   constructor(props) {
@@ -27,13 +29,25 @@ class Profile extends Component {
     const {
       error, userMail, loading, picture,
     } = nextProps.profile;
-
     if (error) {
       Alert.alert('Error', 'Cant fetch userdata');
     } else {
       this.setState({ userMail });
       this.setState({ picture });
       this.setState({ loading });
+    }
+  };
+
+  askProfilePicture = async () => {
+    const { uploadPicture } = this.props;
+    const token = await AsyncStorage.getItem('isLogged');
+    const result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+    });
+    if (token !== null && result.uri !== null) {
+      uploadPicture(token, result);
+      this.setState({ picture: result.uri });
     }
   };
 
@@ -47,7 +61,13 @@ class Profile extends Component {
           <Content>
             <List>
               <ListItem>
-                <Thumbnail large square source={{ uri: picture }} />
+                <TouchableHighlight onPress={() => this.askProfilePicture()}>
+                  <Thumbnail
+                    large
+                    square
+                    source={{ uri: picture }}
+                  />
+                </TouchableHighlight>
               </ListItem>
               <ListItem>
                 <Text>{userMail}</Text>
@@ -72,6 +92,9 @@ const mapState = state => ({
 const mapDispatch = dispatch => ({
   fetchInfo: (token) => {
     dispatch(getInfo(token));
+  },
+  uploadPicture: (token, picture) => {
+    dispatch(uploadProfilePicture(token, picture));
   },
 });
 
