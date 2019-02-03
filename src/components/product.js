@@ -32,7 +32,15 @@ class Product extends Component {
         {product ? (
           <Grid>
             <Col style={{ width: 100 }}>
-              <Thumbnail large square source={{ uri: product.image_url }} />
+              <Thumbnail
+                large
+                square
+                source={{
+                  uri: product.image_url
+                    ? product.image_url
+                    : 'https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif',
+                }}
+              />
             </Col>
             <Col>
               <Row>
@@ -73,10 +81,6 @@ Product.propTypes = {
       brands: PropTypes.string.isRequired,
     }).isRequired,
     loading: PropTypes.bool.isRequired,
-  }).isRequired,
-  nav: PropTypes.shape({
-    view: PropTypes.array,
-    Component: PropTypes.element,
   }).isRequired,
 };
 
