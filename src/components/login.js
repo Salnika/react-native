@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login as loginAction } from '../redux/actions/login';
 import { nextPage } from '../redux/actions/nav';
+import validation from './validation/validate';
 
 const styles = StyleSheet.create({
   full: {
@@ -44,7 +45,6 @@ class Login extends Component {
       await AsyncStorage.setItem('isLogged', login.token);
       registerPage(nav.view, 'home');
     } else if (login.error) {
-      Alert.alert('error', login.error);
       Alert.alert('Login Error', 'Wrong username or password');
     }
   };
@@ -60,7 +60,9 @@ class Login extends Component {
   submit = async () => {
     const { loginFunc } = this.props;
     const { username, password } = this.state;
-    await loginFunc(username.toLowerCase(), password);
+    const emailError = validation('email', username.toLowerCase());
+    if (emailError !== 'Email Invalid email') await loginFunc(username.toLowerCase(), password);
+    else Alert.alert('Error', 'wrong username (should be an email');
   };
 
   goToRegister = () => {
